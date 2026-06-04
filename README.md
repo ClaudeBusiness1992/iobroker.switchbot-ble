@@ -1,15 +1,13 @@
-![Logo](admin/switchbot-ble.png)
-
 # SwitchBot (BLE) adapter for ioBroker
 
-![Number of Installations](http://iobroker.live/badges/switchbot-ble-installed.svg)
-[![github-workflow](https://github.com/mrbungle64/iobroker.switchbot-ble/actions/workflows/node.js.yml/badge.svg)](https://github.com/mrbungle64/iobroker.ecovacs-deebot)
+> [!WARNING]
+> **This repository is no longer maintained and has been archived.**
 
 This adapter allows you to control your SwitchBot "Bot" and to monitor SwitchBot "Meter", "Contact" and "Motion" via Bluetooth (BLE).
 
 ## Before you install
 
-If you are looking for Hub Plus/Mini support, [this adapter](https://github.com/DrozmotiX/ioBroker.switchbot-hub) is what you will need.
+If you are looking for Hub Plus/Mini support, [ioBroker.switchbot-cloud](https://github.com/kaschtn/ioBroker.switchbot-cloud) is what you will need.
 
 ## Models
 
@@ -21,14 +19,7 @@ If you are looking for Hub Plus/Mini support, [this adapter](https://github.com/
 * SwitchBot "Meter"
 * SwitchBot "Meter Plus"
 * SwitchBot "Indoor/Outdoor Hygrometer"
-
-The models listed are those that I have in use myself.
-
-#### Other models
-
 * SwitchBot "Curtain"
-
-These models are known to work, but I don't have them in use myself.
 
 ## Prerequisites
 
@@ -68,7 +59,7 @@ See the documentation of [@abandonware/noble](https://github.com/abandonware/nob
 
 It is recommended to use version 20.x or higher of [Node.js](nodejs.org).
 
-The minimum required version is 18.x, but support for this version may will be dropped soon.
+The minimum required version is 18.x.
 
 ## Installation
 
