@@ -6,7 +6,7 @@
     "name": "Sascha Hölzel",
     "email": "mrb1232@posteo.de"
   },
-  "homepage": "https://github.com/mrbungle64/ioBroker.switchbot-ble",
+  "homepage": "https://github.com/ClaudeBusiness1992/iobroker.switchbot-ble",
   "license": "MIT",
   "keywords": [
     "iobroker",
@@ -21,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/mrbungle64/ioBroker.switchbot-ble"
+    "url": "https://github.com/ClaudeBusiness1992/iobroker.switchbot-ble"
   },
   "dependencies": {
     "@iobroker/adapter-core": "3.2.3",
@@ -60,7 +60,7 @@
     "lint": "eslint"
   },
   "bugs": {
-    "url": "https://github.com/mrbungle64/ioBroker.switchbot-ble/issues"
+    "url": "https://github.com/ClaudeBusiness1992/iobroker.switchbot-ble/issues"
   },
   "readmeFilename": "README.md"
 }

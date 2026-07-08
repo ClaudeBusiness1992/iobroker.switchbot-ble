@@ -1,7 +1,7 @@
 # SwitchBot (BLE) adapter for ioBroker
 
-> [!WARNING]
-> **This repository is no longer maintained and has been archived.**
+> [!NOTE]
+> This is an unofficial fork of the original, archived [mrbungle64/ioBroker.switchbot-ble](https://github.com/mrbungle64/ioBroker.switchbot-ble), updated to a newer `node-switchbot` version to add support for the SwitchBot "Meter Pro" and "Meter Pro (CO2)".
 
 This adapter allows you to control your SwitchBot "Bot" and to monitor SwitchBot "Meter", "Contact" and "Motion" via Bluetooth (BLE).
 
@@ -18,6 +18,8 @@ If you are looking for Hub Plus/Mini support, [ioBroker.switchbot-cloud](https:/
 * SwitchBot "Motion"
 * SwitchBot "Meter"
 * SwitchBot "Meter Plus"
+* SwitchBot "Meter Pro"
+* SwitchBot "Meter Pro (CO2)"
 * SwitchBot "Indoor/Outdoor Hygrometer"
 * SwitchBot "Curtain"
 
