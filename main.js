@@ -18,7 +18,7 @@ class SwitchbotBle extends utils.Adapter {
         this.on('stateChange', this.onStateChange.bind(this));
         this.on('unload', this.onUnload.bind(this));
 
-        this.interval = 15000;
+        this.interval = 60000;
         this.scanDevicesWait = 3000;
         this.pressDevicesWait = 5000;
         this.maxRetriesDeviceAction = 15;
@@ -27,9 +27,9 @@ class SwitchbotBle extends utils.Adapter {
 
         /**
          * @type {{[mac: String]: {address: String, rssi: Number, id: String,
-         *                         serviceData: {model: 'H'|'T'|'e'|'s'|'d'|'c'|'{'|'x'|'u'|'g'|'j'|'o'|'i'|'r'|'w',
+         *                         serviceData: {model: 'H'|'T'|'e'|'s'|'d'|'c'|'{'|'x'|'u'|'g'|'j'|'o'|'i'|'r'|'w'|'5'|'4',
          *                                       modelName: String, battery: Number, state: Boolean, mode: Boolean,
-         *                                       temperature: {c: Number, f: Number}, humidity: Number,
+         *                                       celsius: Number, fahrenheit: Number, humidity: Number, co2: Number,
          *                                       position: Number, calibration: Number, lightLevel: Number,
          *                                       movement: Boolean, doorState: String},
          *                         on: Boolean}}}
@@ -62,8 +62,9 @@ class SwitchbotBle extends utils.Adapter {
         this.log.info(`Set the NOBLE_HCI_DEVICE_ID environment variable to ${this.hciDeviceId} (hci${this.hciDeviceId})`);
         process.env.NOBLE_HCI_DEVICE_ID = this.hciDeviceId;
 
-        const Switchbot = require('node-switchbot');
-        this.switchbot = new Switchbot();
+        // node-switchbot is an ESM-only package since v3.0.0, so it must be loaded via dynamic import()
+        const { SwitchBotBLE } = await import('node-switchbot');
+        this.switchbot = new SwitchBotBLE();
 
         this.scanDevicesInterval = setInterval(() => {
             (async () => {
@@ -119,6 +120,12 @@ class SwitchbotBle extends utils.Adapter {
     onStateChange(id, state) {
         if (state) {
             this.log.debug(`[onStateChange] state ${id} changed: ${state.val} (ack = ${state.ack})`);
+            if (id === `${this.namespace}.info.searchDevices`) {
+                if (!state.ack && state.val) {
+                    this.triggerManualSearch();
+                }
+                return;
+            }
             const stateName = helper.getStateNameById(id);
             const macAddress = helper.getDeviceAddressById(id);
             const channelName = helper.getChannelNameById(id);
@@ -305,6 +312,21 @@ class SwitchbotBle extends utils.Adapter {
                 this.setIsBusy(false);
                 this.stopCommandInterval(false);
             }
+        });
+    }
+
+    triggerManualSearch() {
+        (async () => {
+            if (this.isNotBusy()) {
+                this.log.info('[triggerManualSearch] manual device search triggered');
+                await this.scanDevices();
+            } else {
+                this.log.warn('[triggerManualSearch] a scan is already in progress, ignoring manual trigger');
+            }
+        })().catch((error) => {
+            this.log.error(`[triggerManualSearch] error while scanning devices: ${error}`);
+        }).finally(() => {
+            this.setState('info.searchDevices', false, true);
         });
     }
 
