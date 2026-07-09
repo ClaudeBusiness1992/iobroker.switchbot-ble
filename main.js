@@ -4,6 +4,7 @@ const utils = require('@iobroker/adapter-core');
 const helper = require('./lib/adapterHelper');
 const objects = require('./lib/adapterObjects');
 const Queue = require('./lib/adapterQueue');
+const { applyMeterProPatch } = require('./lib/meterProPatch');
 
 class SwitchbotBle extends utils.Adapter {
     constructor(options) {
@@ -63,8 +64,9 @@ class SwitchbotBle extends utils.Adapter {
         process.env.NOBLE_HCI_DEVICE_ID = this.hciDeviceId;
 
         // node-switchbot is an ESM-only package since v3.0.0, so it must be loaded via dynamic import()
-        const { SwitchBotBLE } = await import('node-switchbot');
-        this.switchbot = new SwitchBotBLE();
+        const nodeSwitchbot = await import('node-switchbot');
+        this.switchbot = new nodeSwitchbot.SwitchBotBLE();
+        applyMeterProPatch(nodeSwitchbot, (msg) => this.log.debug(msg));
 
         this.scanDevicesInterval = setInterval(() => {
             (async () => {

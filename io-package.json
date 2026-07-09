@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "switchbot-ble",
-        "version": "0.5.2",
+        "version": "0.5.3",
         "news": {
+            "0.5.3": {
+                "en": "Fixed Meter Pro (without CO2) values not updating after the initial detection: node-switchbot 3.6.8 only understands one old broadcast format for this model, silently dropping newer-format advertisements. Added a fallback parser (reusing the Meter Pro CO2 sibling's byte layout) for the two newer formats.",
+                "de": "Fehlerbehebung: Meter Pro (ohne CO2) aktualisierte nach der ersten Erkennung keine Werte mehr - node-switchbot 3.6.8 kennt für dieses Modell nur ein altes Broadcast-Format und verwirft neuere Formate stillschweigend. Fallback-Parser ergänzt (nutzt das Byte-Layout der Meter-Pro-CO2-Geschwistervariante) für die zwei neueren Formate."
+            },
             "0.5.2": {
                 "en": "Added support for SwitchBot \"Meter Pro\" (without CO2)",
                 "de": "SwitchBot \"Meter Pro\" (ohne CO2) wird nun unterstützt"
