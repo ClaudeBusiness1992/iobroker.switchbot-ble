@@ -6,6 +6,11 @@ const objects = require('./lib/adapterObjects');
 const Queue = require('./lib/adapterQueue');
 const { applyMeterProPatch } = require('./lib/meterProPatch');
 
+// Messwerte werden nur bei Wertänderung geschrieben. Bleibt ein Wert lange konstant, sieht sein
+// Zeitstempel dadurch "veraltet" aus, obwohl der Sensor sendet. Deshalb Messwerte spätestens nach
+// diesem Intervall auch unverändert erneut schreiben: ts = zuletzt empfangen, lc = zuletzt geändert.
+const STATE_REFRESH_INTERVAL_MS = 30 * 60 * 1000;
+
 class SwitchbotBle extends utils.Adapter {
     constructor(options) {
         super(
@@ -369,10 +374,11 @@ class SwitchbotBle extends utils.Adapter {
         return data.serviceData.state;
     }
 
-    setStateConditional(stateId, value, ack = true) {
+    setStateConditional(stateId, value, ack = true, refreshIfStale = false) {
         this.getState(stateId, (err, state) => {
             if (!err && state) {
-                if (state.val !== value) {
+                const isStale = refreshIfStale && (!state.ts || (Date.now() - state.ts) >= STATE_REFRESH_INTERVAL_MS);
+                if (state.val !== value || isStale) {
                     this.setState(stateId, value, ack);
                 }
             }
